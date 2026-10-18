@@ -13,12 +13,13 @@ import gc
 
 # 벡터 연산을 위한 예시 함수 (NumPy 활용)
 def vectorized_operations(data1, data2):
-    gc.collect()  # 메모리 수집 호출
+    # Performance optimization: Removed gc.collect() as triggering full GC
+    # in hot data processing functions introduces severe pause-the-world latency.
     return np.multiply(data1, data2) + np.divide(data2, 2)
 
 # 행렬 분해 예시 함수 (PCA 활용)
 def matrix_factorization(data):
-    gc.collect()
+    # Performance optimization: Removed gc.collect() to prevent blocking garbage collection pause.
     n_samples, n_features = data.shape
     n_components = min(n_samples, n_features) - 1
 
@@ -31,7 +32,7 @@ def matrix_factorization(data):
 
 # 텐서 연산 예시 (TensorFlow 활용)
 def tensor_operations(data):
-    gc.collect()
+    # Performance optimization: Removed gc.collect() to maintain peak execution speed.
     tensor = tf.constant(data, dtype=tf.float32)
     return tf.square(tensor)
 
